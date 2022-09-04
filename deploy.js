@@ -2,10 +2,12 @@ const ethers = require("ethers");
 const fs = require("fs-extra");
 
 async function main() {
-  // http://0.0.0.0:7545
-  const provider = new ethers.providers.JsonRpcProvider("http://192.168.1.113:7545");
+  // http://127.0.0.1:8545
+  const provider = new ethers.providers.JsonRpcProvider(
+    "http://127.0.0.1:8545"
+  );
   const wallet = new ethers.Wallet(
-    "b6644c3e4616745ca494c5e331211aa8c948be0f5e482519590f24cc1e2f7792",
+    "0x4d4dfd67d908267d04f4b369e20f4924b5aa73e3cd97cdd93fcd5beb60ecb272",
     provider
   );
   const abi = fs.readFileSync("./SimpleStorage_sol_SimpleStorage.abi", "utf8");
@@ -17,6 +19,8 @@ async function main() {
   console.log("Deploying, please wait !");
   const contract = await contractFactory.deploy();
   console.log(contract);
+  const deploymentReceipt = await contract.deployTransaction.wait(1);
+  console.log(deploymentReceipt);
 }
 
 main()
